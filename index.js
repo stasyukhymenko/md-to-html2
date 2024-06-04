@@ -26,5 +26,18 @@ fs.readFile(inputFilePath, 'utf8', (err, data) => {
         console.error('Error reading the file:', err);
         process.exit(1);
     }
-    //TODO
+
+    const html = markdownToHtml(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1<pre>$2</pre>$3'));
+
+    if (outputIndex >= 0) {
+        console.log(html);
+    } else {
+        fs.writeFile('output.html', html, 'utf8', err => {
+            if (err) {
+                console.error('Error writing to output file:', err);
+                process.exit(1);
+            }
+            console.log('HTML saved to output.html');
+        });
+    }
 });
