@@ -54,4 +54,4 @@ node index.js --out <output.html> --out <your_file.md>
 
 ### Revert commit
 
-here will be link 123
+https://github.com/stasyukhymenko/md-to-html/commit/c7af2bf4441c47cdc759ea665a924d0c48107cef
