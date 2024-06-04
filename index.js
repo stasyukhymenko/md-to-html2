@@ -9,9 +9,6 @@ function markdownToHtml(md) {
 
     return md;
 }
-function markdownToHtml(md) {
-    //TODO
-}
 
 const args = process.argv.slice(2);
 
@@ -23,3 +20,11 @@ if (!inputFilePath) {
     console.error('Please provide an input markdown file.');
     process.exit(1);
 }
+
+fs.readFile(inputFilePath, 'utf8', (err, data) => {
+    if (err) {
+        console.error('Error reading the file:', err);
+        process.exit(1);
+    }
+    //TODO
+});
