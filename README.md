@@ -81,7 +81,7 @@ ESC[0m
 
 ### Revert commit
 
-link
+https://github.com/stasyukhymenko/md-to-html2/commit/1691cd7dfa5dac8799ad340169fe4330f1fe1440
 
 ### Failed ci tests:
 
