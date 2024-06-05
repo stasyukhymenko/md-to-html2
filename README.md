@@ -81,7 +81,7 @@ ESC[0m
 
 ### Revert commit
 
-link 123123
+link
 
 ### Failed ci tests:
 
