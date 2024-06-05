@@ -3,17 +3,8 @@ function markdownToHtml(md) {
     md = md.replace(/_(.*?)_/g, '<i>$1</i>');
     md = md.replace(/`(.*?)`/g, '<tt>$1</tt>');
     md = md.replace(/```([\s\S]*?)```/g, '<pre>$1</pre>');
-
-    const paragraphs = md.split(/\n{2,}/);
-
-    const formatted = paragraphs.map(para => {
-        if (!para.startsWith('<pre>') && !para.endsWith('</pre>')) {
-            return `<p>${para.replace(/\n/g, '')}</p>`;
-        }
-        return para;
-    });
-
-    return formatted.join('\n\n');
+    md = md.split('\n\n').map(para => `<p>${para.replace(/\n/g, '')}</p>`).join('\n');
+    return md;
 }
 
 function markdownToAnsi(md) {
