@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { markdownToHtml, markdownToAnsi } = require('./regexp');
+const { generateHtmlOutput, generateAnsiOutput } = require('./regexp');
 
 const args = process.argv.slice(2);
 const formatIndex = args.indexOf('--format');
@@ -13,14 +13,6 @@ if (!inputFilePath) {
     console.error('Please provide an input markdown file.');
     process.exit(1);
 }
-
-const generateHtmlOutput = (data) => {
-    return markdownToHtml(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1<pre>$2</pre>$3'));
-};
-
-const generateAnsiOutput = (data) => {
-    return markdownToAnsi(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1\x1b[7m$2\x1b[0m$3'));
-};
 
 fs.readFile(inputFilePath, 'utf8', (err, data) => {
     if (err) {

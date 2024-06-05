@@ -24,4 +24,13 @@ function markdownToAnsi(md) {
     return md;
 }
 
-module.exports = { markdownToHtml, markdownToAnsi };
+const generateHtmlOutput = (data) => {
+    return markdownToHtml(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1<pre>$2</pre>$3'));
+};
+
+const generateAnsiOutput = (data) => {
+    return markdownToAnsi(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1\x1b[7m$2\x1b[0m$3'));
+};
+
+
+module.exports = { markdownToHtml, markdownToAnsi, generateHtmlOutput, generateAnsiOutput };
