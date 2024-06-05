@@ -86,3 +86,7 @@ https://github.com/stasyukhymenko/md-to-html2/commit/1691cd7dfa5dac8799ad340169f
 ### Failed ci tests:
 
 https://github.com/stasyukhymenko/md-to-html2/actions/runs/9392065909
+
+### Conclusion:
+
+I believe that unit testing really helps to detect errors, especially if several people or even a whole company are working on a project. Because people can understand each other's code in different ways and each of us has different knowledge in a particular programming area. But, in my opinion, every company should have a separate specialist who will cover the logic of the application using unit tests, because they take a lot of time and prevent developers from thinking about the logic of the project, which is their main activity.
