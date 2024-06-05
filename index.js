@@ -14,6 +14,14 @@ if (!inputFilePath) {
     process.exit(1);
 }
 
+const generateHtmlOutput = (data) => {
+    return markdownToHtml(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1<pre>$2</pre>$3'));
+};
+
+const generateAnsiOutput = (data) => {
+    return markdownToAnsi(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1\x1b[7m$2\x1b[0m$3'));
+};
+
 fs.readFile(inputFilePath, 'utf8', (err, data) => {
     if (err) {
         console.error('Error reading the file:', err);
@@ -21,11 +29,10 @@ fs.readFile(inputFilePath, 'utf8', (err, data) => {
     }
 
     let output;
-
     if (format === 'html') {
-        output = markdownToHtml(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1<pre>$2</pre>$3'));
+        output = generateHtmlOutput(data);
     } else {
-        output = markdownToAnsi(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1\x1b[7m$2\x1b[0m$3'));
+        output = generateAnsiOutput(data);
     }
 
     if (outputFilePath) {
