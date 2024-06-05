@@ -18,9 +18,12 @@ function markdownToAnsi(md) {
 }
 
 const args = process.argv.slice(2);
-
+const formatIndex = args.indexOf('--format');
 const outputIndex = args.indexOf('--out');
+
 const inputFilePath = outputIndex >= 0 ? args[0] : args[0];
+const format = formatIndex >= 0 ? args[formatIndex + 1] : 'ansi';
+const outputFilePath = outputIndex >= 0 ? args[outputIndex + 1] : null;
 
 if (!inputFilePath) {
     console.error('Please provide an input markdown file.');
