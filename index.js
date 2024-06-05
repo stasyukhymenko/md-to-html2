@@ -9,10 +9,21 @@ function markdownToHtml(md) {
     return md;
 }
 
-const args = process.argv.slice(2);
+function markdownToAnsi(md) {
+    md = md.replace(/\*\*(.*?)\*\*/g, '\x1b[1m$1\x1b[0m');
+    md = md.replace(/_(.*?)_/g, '\x1b[3m$1\x1b[0m');
+    md = md.replace(/`(.*?)`/g, '\x1b[7m$1\x1b[0m');
+    md = md.replace(/```([\s\S]*?)```/g, (match, p1) => `\x1b[7m${p1}\x1b[0m`);
+    return md;
+}
 
+const args = process.argv.slice(2);
+const formatIndex = args.indexOf('--format');
 const outputIndex = args.indexOf('--out');
+
 const inputFilePath = outputIndex >= 0 ? args[0] : args[0];
+const format = formatIndex >= 0 ? args[formatIndex + 1] : 'ansi';
+const outputFilePath = outputIndex >= 0 ? args[outputIndex + 1] : null;
 
 if (!inputFilePath) {
     console.error('Please provide an input markdown file.');
@@ -25,17 +36,23 @@ fs.readFile(inputFilePath, 'utf8', (err, data) => {
         process.exit(1);
     }
 
-    const html = markdownToHtml(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1<pre>$2</pre>$3'));
+    let output;
 
-    if (outputIndex >= 0) {
-        fs.writeFile('output.html', html, 'utf8', err => {
+    if (format === 'html') {
+        output = markdownToHtml(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1<pre>$2</pre>$3'));
+    } else {
+        output = markdownToAnsi(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1\x1b[7m$2\x1b[0m$3'));
+    }
+
+    if (outputFilePath) {
+        fs.writeFile(outputFilePath, output, 'utf8', err => {
             if (err) {
                 console.error('Error writing to output file:', err);
                 process.exit(1);
             }
-            console.log('HTML saved to output.html');
+            console.log(`Output saved to ${outputFilePath}`);
         });
     } else {
-        console.log(html);
+        console.log(output);
     }
 });
