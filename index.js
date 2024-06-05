@@ -36,17 +36,23 @@ fs.readFile(inputFilePath, 'utf8', (err, data) => {
         process.exit(1);
     }
 
-    const html = markdownToHtml(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1<pre>$2</pre>$3'));
+    let output;
 
-    if (outputIndex >= 0) {
-        fs.writeFile('output.html', html, 'utf8', err => {
+    if (format === 'html') {
+        output = markdownToHtml(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1<pre>$2</pre>$3'));
+    } else {
+        output = markdownToAnsi(data.replace(/(^|\n)```([\s\S]*?)```(\n|$)/g, '$1\x1b[7m$2\x1b[0m$3'));
+    }
+
+    if (outputFilePath) {
+        fs.writeFile(outputFilePath, output, 'utf8', err => {
             if (err) {
                 console.error('Error writing to output file:', err);
                 process.exit(1);
             }
-            console.log('HTML saved to output.html');
+            console.log(`Output saved to ${outputFilePath}`);
         });
     } else {
-        console.log(html);
+        console.log(output);
     }
 });
