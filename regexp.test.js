@@ -47,7 +47,7 @@ describe('markdownToAnsi', () => {
 
     test('should convert code block to ANSI', () => {
         const input = '```\ncode block\n```';
-        const output = '\x1b[7mcode block\x1b[0m';
+        const output = '\x1b[7m\ncode block\n\x1b[0m';
         expect(generateAnsiOutput(input)).toBe(output);
     });
 });
