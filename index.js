@@ -9,6 +9,14 @@ function markdownToHtml(md) {
     return md;
 }
 
+function markdownToAnsi(md) {
+    md = md.replace(/\*\*(.*?)\*\*/g, '\x1b[1m$1\x1b[0m');
+    md = md.replace(/_(.*?)_/g, '\x1b[3m$1\x1b[0m');
+    md = md.replace(/`(.*?)`/g, '\x1b[7m$1\x1b[0m');
+    md = md.replace(/```([\s\S]*?)```/g, (match, p1) => `\x1b[7m${p1}\x1b[0m`);
+    return md;
+}
+
 const args = process.argv.slice(2);
 
 const outputIndex = args.indexOf('--out');
